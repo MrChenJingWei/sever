@@ -9,6 +9,6 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, 'public'))); //配置静态文件路径
 
-app.listen(80,function () {
+app.listen(5555,function () {
     console.log("http://localhost:80");
 });
