@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Mr.Chen的秘密花园</title>
     <style>
         body,
         html {
@@ -14,187 +14,93 @@
             font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
             min-width: 300px;
             min-height: 300px;
+            transition: background 1s;
         }
 
-        .f {
-            position: fixed;
-            bottom: 5px;
-            right: 15px;
-            font-family: 'Arial';
-            font-size: 0.7rem;
-            color: #aaa;
-            text-align: center;
+        .name-chen {
+            display: inline-block;
+            font-size: 40px;
+            padding: 10px;
+            transition: transform 1s;
+            color: #188150;
         }
 
-        .f a {
-            font-size: 0.8rem;
-            color: #fff;
-        }
-        .userName{
+        /*.name-chen:hover {*/
+            /*text-shadow: 1px 30px 10px #234562;*/
+            /*transform: scale(1.2, 1.2);*/
+            /*!*font-size: 45px;*!*/
+            /*color:;*/
+        /*}*/
 
+        @keyframes name-opacity {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .userName {
             height: 10%;
             width: 50%;
             margin: 0 auto;
-            position: absolute;
+            position: fixed;
             top: 45%;
             left: 25%;
-            background-position: center;
-            background-image: url("resource/img/welcome.png");
-            background-size: cover;
+            text-align: center;
+            animation-name: name-opacity;
+            animation-duration: 6s;
+        }
+
+        p {
+            -webkit-user-select: none; /* Chrome all / Safari all /opera15+*/
+            -moz-user-select: none; /* Firefox all */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none;
+            color: rgba(10, 127, 122, 0.85);
         }
 
     </style>
 </head>
 <body>
-<div class="userName"></div>
+<div class="userName translate-img">
+    <p>
+        <span>Welcome to </span>
+        <span class="name-chen">Mr.Chen's</span>
+        <span> Garden</span>
+    </p>
+</div>
 </body>
 </html>
+<script src="resource/js/bg-jq.js"></script>
+<script src="resource/js/jqery.js"></script>
 <script>
 
-    //    背景插件
+
     'use strict';
-
-
-    function bgPlay() {
-        /**/
-        /* ---- CORE ---- */
-        /**/
-        var canvas = document.createElement('canvas');
-        /**/
-        var context = canvas.getContext('2d');
-        /**/
-        var windowWidth = canvas.width = window.innerWidth;
-        /**/
-        var windowHeight = canvas.height = window.innerHeight;
-        /**/
-        canvas.id = 'canvas';
-        /**/
-        document.body.insertBefore(canvas, document.body.firstChild);
-        /**/
-        window.onresize = function () {
-            /**/
-            windowWidth = canvas.width = window.innerWidth;
-            /**/
-            windowHeight = canvas.height = window.innerHeight;
-            /**/
-        };
-        /**/
-        /* ---- CORE END ---- */
-        /* ---- CREATING ZONE ---- */
-
-        // http://inconvergent.net/shepherding-random-numbers/
-
-        /* ---- SETTINGS ---- */
-        var numberParticlesStart = 1000;
-        var particleSpeed = 0.3;
-        var velocity = 0.4;
-        var circleWidth = 100;
-
-        /* ---- INIT ---- */
-        var particles = [];
-
-        var getRandomFloat = function getRandomFloat(min, max) {
-            return Math.random() * (max - min) + min;
-        };
-
-        /* ---- Particle ---- */
-        function Particle(x, y) {
-            this.x = x;
-            this.y = y;
-
-            this.vel = {
-                x: getRandomFloat(-20, 20) / 100,
-                y: getRandomFloat(-20, 20) / 100,
-                min: getRandomFloat(2, 10),
-                max: getRandomFloat(10, 100) / 10
-            };
-
-            this.color = 'rgba(255, 255, 255, 0.05)';
-        }
-
-        Particle.prototype.render = function () {
-            context.beginPath();
-            context.fillStyle = this.color;
-            context.arc(this.x, this.y, 1, 1, Math.PI * 2);
-            context.fill();
-        };
-        Particle.prototype.update = function () {
-
-            var forceDirection = {
-                x: getRandomFloat(-1, 1),
-                y: getRandomFloat(-1, 1)
-            };
-
-            if (Math.abs(this.vel.x + forceDirection.x) < this.vel.max) {
-                this.vel.x += forceDirection.x;
-            }
-            if (Math.abs(this.vel.y + forceDirection.y) < this.vel.max) {
-                this.vel.y += forceDirection.y;
-            }
-
-            this.x += this.vel.x * particleSpeed;
-            this.y += this.vel.y * particleSpeed;
-
-            if (Math.abs(this.vel.x) > this.vel.min) {
-                this.vel.x *= velocity;
-            }
-            if (Math.abs(this.vel.y) > this.vel.min) {
-                this.vel.y *= velocity;
-            }
-
-            this.testBorder();
-        };
-        Particle.prototype.testBorder = function () {
-            if (this.x > windowWidth) {
-                this.setPosition(this.x, 'x');
-            } else if (this.x < 0) {
-                this.setPosition(windowWidth, 'x');
-            }
-            if (this.y > windowHeight) {
-                this.setPosition(this.y, 'y');
-            } else if (this.y < 0) {
-                this.setPosition(windowHeight, 'y');
-            }
-        };
-        Particle.prototype.setPosition = function (pos, coor) {
-            if (coor === 'x') {
-                this.x = pos;
-            } else if (coor === 'y') {
-                this.y = pos;
-            }
-        };
-
-        /* ---- Functions ----*/
-        function loop() {
-            var i = undefined;
-            var length = particles.length;
-            for (i = 0; i < length; i++) {
-                particles[i].update();
-                particles[i].render();
-            }
-            requestAnimationFrame(loop);
-        }
-
-        /* ---- START ---- */
-        function init() {
-            var i = undefined;
-            for (i = 0; i < numberParticlesStart; i++) {
-                var angle = Math.random() * 360;
-                particles.push(new Particle(windowWidth * 0.5 + Math.cos(angle) * circleWidth, windowHeight * 0.5 - Math.sin(angle) * circleWidth));
-            }
-        }
-
-        init();
-
-        window.addEventListener('click', function () {
-            particles = [];
-            context.clearRect(0, 0, windowWidth, windowHeight);
-            init();
-        });
-
-        loop();
-    }
+    //    背景插件实例化
     bgPlay();
+
+    $('.name-chen').on({
+        'click': function (event) {
+            $("#canvas").fadeOut(3000);
+            $('body').css('background-color', 'black');
+            $('.name-chen').css({
+                'text-shadow': '1px 30px 10px #234562',
+                'transform': 'scale(1.2, 1.2)',
+                'color': '#05544f'
+            });
+            event.stopPropagation();
+        },
+        'mouseover':function () {
+            $('.name-chen').css({
+                'text-shadow': '1px 30px 10px #234562',
+                'transform': 'scale(1.2, 1.2)',
+                'color': '#05544f'
+            });
+        }
+    })
 
 
 </script>

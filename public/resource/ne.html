@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        svg{
+            height: 600px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+<button class="button" onclick="">点我</button>
+<svg style="display: none">
+
+    <line x1="100" y1="-10" x2="105" y2="-10" stroke="black" stroke-width="5" stroke-linecap="butt">
+        <animate id="d11" attributeName="y2" from="-10"  to="100" begin="1" dur="3s" fill="freeze" ></animate>
+        <animate attributeName="y1" from="-10"  to="100" begin="1" dur="3s" fill="freeze" ></animate>
+
+        <animate attributeName="x2" from="100"  to="200" begin="1" dur="3s" fill="freeze" ></animate>
+        <animate id="sd" attributeName="y2" from="100"  to="200" begin="1" dur="3s" fill="freeze" ></animate>
+    </line>
+
+
+
+</svg>
+</body>
+</html>
+<script>
+    function a() {
+        document.querySelector('svg').style.display = 'block';
+    }
+</script>
